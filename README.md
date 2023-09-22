@@ -12,5 +12,5 @@ Application Trello like comprenant **members** et **admins**
 
 </br>
 
-[MCD](./documents/MCD.jpg)
+[MCD](./.documents/MCD.jpg)
 
