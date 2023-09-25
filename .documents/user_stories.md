@@ -15,12 +15,14 @@
 |Member|Créer une card|ajouter une nouvelle card dans un board|
 |Member|Editer une card|modifier le nom ou la description d'une card|
 |Member|Supprimer une card|supprimer une card et ses todos associés|
-|Member|Récupérer une card|récupéré une card supprimé et ses todos associés|
+|Member|Récupérer une card supprimé|récupéré une card supprimé et ses todos associés|
+|Member|Déplacer une card|modifier la position au sein d'un board ou la changer de board|
 |...|...|...|
 |Member|Créer un todo|ajouter un todo à la card|
 |Member|Editer un todo|modifier le titre ou la couleur d'un todo|
 |Member|Deplacer un todo|modifier le positionnement d'un todo dans une card|
 |Member|Supprimer un todo|supprimer le todo d'une liste|
+|Member|Déplacer un todo|modifier la position d'un todo au sein d'une card|
 |...|...|...|
 |Member|Créer un nouveau tag||
 |Member|Editer un tag|modifier le nom ou la couleur d'un tag|
