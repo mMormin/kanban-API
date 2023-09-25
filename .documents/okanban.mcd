@@ -1,8 +1,8 @@
 member: code-member, email, password, role
-OWS, 0N member, 0N board
+OWS, 0N member, 11 board
 board: code-board, title, description
 
-HAS, 11 board, 0N card
+HAS, 0N board, 11 card
 
 card: code-card, title, position, hidden
 
