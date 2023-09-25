@@ -1,0 +1,13 @@
+member: code-member, email, password, role
+OWS, 0N member, 0N board
+board: code-board, title, description
+
+HAS, 11 board, 0N card
+
+card: code-card, title, position, hidden
+
+CONTAINS, 0N card, 11 todo
+
+todo: code-todo, title, position, color
+POSSESS, 0N todo, 0N tag
+tag: code-tag, name, color

@@ -1,16 +1,5 @@
 # oKanban
 
-Application Trello like comprenant **members** et **admins**
-- boards
-- cards
-- todos
+[**USER STORIES**](./.documents/user_stories.md)
 
-</br>
-</br>
-
-[USER STORIES](./.documents/user_stories.md)
-
-</br>
-
-[MCD](./.documents/MCD.jpg)
-
+[**MCD**](./.documents/MCD.png)
