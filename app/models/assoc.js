@@ -6,44 +6,48 @@ const Tag = require("./tag.js");
 
 // MEMBER <-> BOARD
 Member.hasMany(Board, {
-  foreignKey: "member_id",
-  as: "boardsList",
+  as: "boards",
+  foreignKey: "user_id",
 });
 Board.belongsTo(Member, {
-  foreignKey: "member_id",
-  as: "author",
+  as: "user",
+  foreignKey: "user_id",
 });
 
 // BOARD <-> CARD
 Board.hasMany(Card, {
+  as: "cards",
   foreignKey: "board_id",
-  as: "cardsList",
 });
 Card.belongsTo(Board, {
-  foreignKey: "board_id",
   as: "board",
+  foreignKey: "board_id",
 });
 
 // CARD <-> TODO
 Card.hasMany(Todo, {
+  as: "todos",
   foreignKey: "card_id",
-  as: "todoList",
 });
 Todo.belongsTo(Card, {
-  foreignKey: "card_id",
   as: "card",
+  foreignKey: "card_id",
 });
 
 // TODO <-> TAG
 Todo.belongsToMany(Tag, {
+  as: "tags",
   through: "todo_has_tag",
   foreignKey: "todo_id",
-  as: "tagsList",
+  otherKey: "tag_id",
+  updatedAt: false,
 });
 Tag.belongsToMany(Todo, {
+  as: "todos",
   through: "todo_has_tag",
   foreignKey: "tag_id",
-  as: "todoList",
+  otherKey: "todo_id",
+  updatedAt: false,
 });
 
 module.exports = {

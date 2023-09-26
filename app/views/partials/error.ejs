@@ -1,0 +1,17 @@
+<div class="alert alert-danger" role="alert">
+  <% switch(locals.error) { case "signup": %>
+    <p>Veuillez remplir tous les champs pour compléter votre incription.</p>
+  <% break; case "email": %>
+    <p>Veuillez fournir une adresse email valide (ex: moi@exemple.fr).</p>
+  <% break; case "alreadyExist": %>
+    <p>Malheureusement cette adresse email est déjà utilisée.</p>
+    <a class="button--reverse" href="/login">Se connecter</a>
+  <% break; case "password": %>
+   <p>
+    Les mots de passe doivent faire 8 caractéres au minimum et contenir une
+    majuscule, un chiffre et un caractére spécial !
+   </p>
+  <% break; case "noBoard": %>
+    <p>Aucun board trouvé</p>
+  <% break; } %>
+</div>

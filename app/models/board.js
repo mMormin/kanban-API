@@ -6,20 +6,20 @@ class Board extends Model {}
 Board.init(
   {
     title: {
-      type: DataTypes.STRING,
+      type: DataTypes.TEXT,
       allowNull: false,
       validate: {
         notEmpty: true,
       },
     },
     description: {
-      type: DataTypes.STRING,
+      type: DataTypes.TEXT,
     },
   },
   {
     sequelize,
     modelName: "Board",
-    tableName: "Board",
+    tableName: "board",
   }
 );
 

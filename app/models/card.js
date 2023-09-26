@@ -6,7 +6,7 @@ class Card extends Model {}
 Card.init(
   {
     title: {
-      type: DataTypes.STRING,
+      type: DataTypes.TEXT,
       allowNull: false,
       validate: {
         notEmpty: true,
@@ -15,22 +15,22 @@ Card.init(
     position: {
       type: DataTypes.INTEGER,
       allowNull: false,
-      validate: {
-        notEmpty: true,
-      },
     },
     hidden: {
-      type: DataTypes.BOOLEAN,
+      type: DataTypes.TEXT,
       allowNull: false,
-      validate: {
-        notEmpty: true,
-      },
+      defaultValue: "FALSE",
+    },
+    color: {
+      type: DataTypes.TEXT,
+      allowNull: false,
+      defaultValue: "default",
     },
   },
   {
     sequelize,
     modelName: "Card",
-    tableName: "Card",
+    tableName: "card",
   }
 );
 

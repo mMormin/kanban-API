@@ -6,7 +6,7 @@ class Todo extends Model {}
 Todo.init(
   {
     title: {
-      type: DataTypes.STRING,
+      type: DataTypes.TEXT,
       allowNull: false,
       validate: {
         notEmpty: true,
@@ -15,18 +15,12 @@ Todo.init(
     position: {
       type: DataTypes.INTEGER,
       allowNull: false,
-      validate: {
-        notEmpty: true,
-      },
-    },
-    color: {
-      type: DataTypes.INTEGER,
     },
   },
   {
     sequelize,
     modelName: "Todo",
-    tableName: "Todo",
+    tableName: "todo",
   }
 );
 

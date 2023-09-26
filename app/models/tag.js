@@ -6,7 +6,7 @@ class Tag extends Model {}
 Tag.init(
   {
     name: {
-      type: DataTypes.STRING,
+      type: DataTypes.TEXT,
       allowNull: false,
       validate: {
         notEmpty: true,
@@ -14,6 +14,8 @@ Tag.init(
     },
     color: {
       type: DataTypes.INTEGER,
+      allowNull: false,
+      default: "#FFF",
     },
   },
   {
