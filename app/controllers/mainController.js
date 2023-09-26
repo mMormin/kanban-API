@@ -24,7 +24,7 @@ const mainController = {
   },
 
   errorPage: (req, res) => {
-    res.status(404).render("status", { status: "404" });
+    res.status(404).render("Cette ressourcec n'existe pas");
   },
 };
 
