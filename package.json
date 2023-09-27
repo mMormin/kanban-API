@@ -4,9 +4,10 @@
   "description": "Trello like",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon",
-    "db:create": "psql -U okanban -d okanban -f database/create_tables.sql",
-    "db:populate": "psql -U okanban -d okanban -f database/populate_tables.sql",
+    "start": "node .",
+    "dev": "npx nodemon",
+    "db:create": "psql -U okanban -d okanban -f database/structure.sql",
+    "db:populate": "psql -U okanban -d okanban -f database/seeding.sql",
     "db:rebuild": "npm run db:create && npm run db:populate"
   },
   "author": "",

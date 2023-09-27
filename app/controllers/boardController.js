@@ -1,46 +1,68 @@
-const Board = require("../models/board");
+const { Board } = require("../models/index");
 
 const boardController = {
-  async getAllBoards(req, res, next) {
+  async getAllBoards(_, res) {
     try {
-      const boards = await Board.findAll({});
+      const boards = await Board.findAll({
+        where: {
+          member_id: 1,
+        },
+      });
 
       res.json({ boards });
     } catch (error) {
       console.error(error);
-      res.status(500).send(error.message);
-      next();
+      res.status(500).json({ error: "Internal Server Error" });
     }
   },
 
-  async getOneBoard(req, res, next) {
+  async createNewBoard(req, res, next) {
     try {
-      const board = await Board.findByPk({ id: req.params });
+      const userInput = req.body;
+      const board = await Board.create(userInput);
 
-      res.json({ board });
+      return res.json(board);
     } catch (error) {
-      console.error(error);
-      res.status(500).send(error.message);
-      next();
+      if (error.name === "SequelizeValidationError") {
+        return res.status(400).json({ error: error.message });
+      }
+      return res.status(500).json({ error: "Internal Server Error" });
     }
   },
 
-  async newBoard(req, res, next) {
+  async getOneBoardByPk(req, res, next) {
     try {
-      res.json({ board });
+      const { id } = req.params;
+      const board = await Board.findByPk(id);
+
+      if (!board) {
+        return next();
+      }
+
+      return res.json(board);
     } catch (error) {
       console.error(error);
-      res.status(500).send(error.message);
-      next();
+      return res.status(500).json({ error: "Internal Server Error" });
     }
   },
 
   async updateBoard(req, res, next) {
     try {
-      const board = await Board.findByPk({ id: req.params });
+      const { id } = req.params;
+      const userInput = req.body;
 
-      board.set
+      const result = await Card.update(userInput, {
+        where: { id },
+        returning: true,
+      });
 
+      const [, [board]] = result;
+
+      if (!board) {
+        return next();
+      }
+
+      return res.json(board);
     } catch (error) {
       console.error(error);
       res.status(500).send(error.message);
@@ -48,16 +70,34 @@ const boardController = {
     }
   },
 
-  async deleteBoard(req, res, next) {
+  async deleteOneBoard(req, res, next) {
     try {
-      const board = await Board.findByPk({ id: req.params });
+      const { id } = req.params;
+      const deletedBoard = await Board.destroy({ where: { id } });
 
-      board.destroy();
+      if (!deletedBoard) {
+        return next();
+      }
 
+      return res.status(204).json();
     } catch (error) {
-      console.error(error);
-      res.status(500).send(error.message);
-      next();
+      console.error(err);
+      return res.status(500).json({ error: "Internal Server Error" });
+    }
+  },
+
+  async deleteAllBoards(req, res, next) {
+    try {
+      const deletedBoards = await Board.destroy();
+
+      if (!deletedBoards) {
+        return next();
+      }
+
+      return res.status(204).json();
+    } catch (error) {
+      console.error(err);
+      return res.status(500).json({ error: "Internal Server Error" });
     }
   },
 };

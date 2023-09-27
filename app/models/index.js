@@ -7,11 +7,11 @@ const Tag = require("./tag.js");
 // MEMBER <-> BOARD
 Member.hasMany(Board, {
   as: "boards",
-  foreignKey: "user_id",
+  foreignKey: "member_id",
 });
 Board.belongsTo(Member, {
   as: "user",
-  foreignKey: "user_id",
+  foreignKey: "member_id",
 });
 
 // BOARD <-> CARD

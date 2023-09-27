@@ -1,36 +1,29 @@
-const { Router } = require("express");
+const express = require('express');
 
-const mainController = require("./controllers/boardController");
+const mainController = require("./controllers/mainController");
+const boardController = require("./controllers/boardController");
+const cardController = require("./controllers/cardController");
+const todoController = require("./controllers/todoController");
+const tagController = require("./controllers/tagController");
 
-const router = Router();
+const router = express.Router();
 
 // Boards
-router.get("/boards", boardController, getAllBoards);
-router.get("/boards/:id", boardController, getOneBoard);
-router.post("/boards", boardController, newBoard);
-router.patch("/boards/:id", boardController, updateBoard);
-router.delete("/boards/:id", boardController, deleteBoard);
+router.route("/boards").get(boardController.getAllBoards).post(boardController.createNewBoard).delete(boardController.deleteAllBoards);
+router.route("/boards/:id(\\d+)").get(boardController.getOneBoardByPk).patch(boardController.updateBoard).delete(boardController.deleteOneBoard);
 
 // Cards
-router.get("cards", cardController, getAllCards);
-router.get("cards/:id", cardController, getOneCard);
-router.post("/cards", cardController, newCard);
-router.patch("/cards/:id", cardController, updateCard);
-router.delete("/cards/:id", cardController, deleteCard);
+router.route("/cards").get(cardController.getAllCards).post(cardController.createNewCard).delete(cardController.deleteAllCards);
+router.route("/cards/:id(\\d+)").get(cardController.getOneCardByPk).patch(cardController.updateCard).delete(cardController.deleteOneCard);
 
 // Todos
-router.get("todos", todoController, getAllTodos);
-router.get("todos/:id", todoController, getOneTodo);
-router.post("/todos/:id", todoController, newTodo);
-router.patch("/todos/:id", todoController, updateTodo);
-router.delete("/todos/:id", todoController, deleteTodo);
+router.route("/todos").get(todoController.getAllTodos).post(todoController.createNewTodo);
+router.route("/todos/:id(\\d+)").get(todoController.getOneTodoByPk).patch(todoController.updateTodo).delete(todoController.deleteOneTodo);
 
 // Tags
-router.get("/tags", tagController, getAllTags);
-router.get("/tags/:id", tagController, getOneTag);
-router.post("/tags/:id", tagController, newTag);
-router.patch("/tags/:id", tagController, updateTag);
-router.delete("/tags/:id", tagController, deleteTag);
+router.route("/tags").get(tagController.getAllTags).post(tagController.createNewTag);
+router.route("/tags/:id(\\d+)").get(tagController.getOneTagByPk).patch(tagController.updateTag).delete(tagController.deleteOneTag);
+
 
 // Signup
 // router.get("/signup");
@@ -42,6 +35,6 @@ router.delete("/tags/:id", tagController, deleteTag);
 // router.get("/logout");
 
 // Undefined path
-router.use("*", mainController.errorPage);
+router.use(mainController.notFound);
 
 module.exports = router;

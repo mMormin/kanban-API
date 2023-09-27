@@ -1,0 +1,72 @@
+### Erreur 404
+GET http://localhost:3000/fdefbqr
+
+### GET ALL BOARDS
+GET http://localhost:3000/boards
+
+### GET ONE BOARD
+GET http://localhost:3000/boards/1
+
+### Récupération d'une liste en particulier
+GET http://localhost:3000/cards/2
+
+### Récupération d'une liste mal formaté
+GET http://localhost:3000/lists/dsfsd
+
+### Récupération d'une liste qui n'existe pas
+GET http://localhost:3000/lists/1234
+
+### Créer une liste en JSON
+POST http://localhost:3000/lists
+Content-Type: application/json
+
+{
+  "name": "Liste de test"
+}
+
+### Créer une liste en urlEncoded machin=1&truc=2 (Format de soumission des formulaires des navigateur web)
+POST http://localhost:3000/lists
+Content-Type: application/x-www-form-urlencoded
+
+name=Liste de test 2
+
+### Créer une liste en JSON qui tombe en erreur
+POST http://localhost:3000/lists
+Content-Type: application/json
+
+### Mettre à jour une liste en JSON
+PATCH http://localhost:3000/lists/1
+Content-Type: application/json
+
+{
+  "name": "Liste updated"
+}
+
+### Mettre à jour une liste en JSON en erreur
+PATCH http://localhost:3000/lists/1234
+Content-Type: application/json
+
+{
+  "name": "Liste updated"
+}
+
+### Suppression d'une liste
+DELETE http://localhost:3000/lists/1
+
+### Suppression d'une liste en erreur
+DELETE http://localhost:3000/lists/1234
+
+
+### Ajouter une carte
+POST http://localhost:3000/cards
+Content-Type: application/json
+
+{
+  "title": "titre de la carte",
+  "position": "1",
+  "color": "#00FF00",
+  "list_id": 2
+}
+
+### Récupération de toutes les cartes
+GET http://localhost:3000/cards

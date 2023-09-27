@@ -1,61 +1,101 @@
-const Card = require("../models/card");
+const { Card } = require("../models/index");
 
 const cardController = {
-  async getAllCards(req, res, next) {
+  async getAllCards(_, res) {
     try {
-      const cards = await Card.findAll({});
+      const cards = await Card.findAll();
 
-      res.json({ cards });
+      res.json(cards);
     } catch (error) {
       console.error(error);
-      res.status(500).send(error.message);
-      next();
+      res.status(500).json({ error: "Internal Server Error" });
     }
   },
 
-  async getOneCard(req, res, next) {
+  async createNewCard(req, res) {
     try {
-      const card = await Card.findByPk({ id: req.params });
+      const userInput = req.body;
+      const card = await Card.create(userInput);
 
-      res.json({ card });
+      res.json(card);
     } catch (error) {
-      console.error(error);
-      res.status(500).send(error.message);
-      next();
+      if (error.name === "SequelizeValidationError") {
+        return res.status(400).json({ error: error.message });
+      }
+      return res.status(500).json({ error: "Internal Server Error" });
     }
   },
 
-  async newCard(req, res, next) {
+  async getOneCardByPk(req, res, next) {
     try {
-      res.json({ card });
+      const { id } = req.params;
+      const card = await Card.findByPk(id);
+
+      if (!list) {
+        return next();
+      }
+
+      return res.json(card);
     } catch (error) {
       console.error(error);
-      res.status(500).send(error.message);
-      next();
+      return res.status(500).json({ error: "Internal Server Error" });
     }
   },
 
   async updateCard(req, res, next) {
     try {
-      const card = await Card.findByPk({ id: req.params });
+      const { id } = req.params;
+      const userInput = req.body;
 
+      const result = await Card.update(userInput, {
+        where: { id },
+        returning: true,
+      });
+
+      const [, [card]] = result;
+
+      if (!card) {
+        return next();
+      }
+
+      return res.json(card);
     } catch (error) {
-      console.error(error);
-      res.status(500).send(error.message);
-      next();
+      console.error(err);
+      if (error.name === "SequelizeValidationError") {
+        return res.status(400).json({ error: error.message });
+      }
+      return res.status(500).json({ error: "Internal Server Error" });
     }
   },
 
-  async deleteCard(req, res, next) {
+  async deleteOneCard(req, res, next) {
     try {
-      const card = await Card.findByPk({ id: req.params });
+      const { id } = req.params;
+      const deletedCard = await Card.destroy({ where: { id } });
 
-      card.destroy();
+      if (!deletedCard) {
+        return next();
+      }
 
+      return res.status(204).json();
     } catch (error) {
       console.error(error);
-      res.status(500).send(error.message);
-      next();
+      return res.status(500).json({error: 'Internal Server Error'});
+    }
+  },
+
+  async deleteAllCards(req, res, next) {
+    try {
+      const deletedCards = await Card.destroy();
+
+      if (!deletedCards) {
+        return next();
+      }
+
+      return res.status(204).json();
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({error: 'Internal Server Error'});
     }
   },
 };
