@@ -16,10 +16,13 @@ const boardController = {
     }
   },
 
-  async createNewBoard(req, res, next) {
+  async createNewBoard(req, res) {
     try {
-      const userInput = req.body;
-      const board = await Board.create(userInput);
+      const userInputs = req.body;
+      
+      console.log(userInputs)
+
+      const board = await Board.create(userInputs);
 
       return res.json(board);
     } catch (error) {
@@ -51,12 +54,14 @@ const boardController = {
       const { id } = req.params;
       const userInput = req.body;
 
-      const result = await Card.update(userInput, {
+      const result = await Board.update(userInput, {
         where: { id },
         returning: true,
       });
 
-      const [, [board]] = result;
+      console.log(result);
+
+      let [, [board]] = result;
 
       if (!board) {
         return next();
@@ -88,7 +93,7 @@ const boardController = {
 
   async deleteAllBoards(req, res, next) {
     try {
-      const deletedBoards = await Board.destroy();
+      const deletedBoards = await Board.destroy({ where: { member_id: 1 } });
 
       if (!deletedBoards) {
         return next();
@@ -96,7 +101,7 @@ const boardController = {
 
       return res.status(204).json();
     } catch (error) {
-      console.error(err);
+      console.error(error);
       return res.status(500).json({ error: "Internal Server Error" });
     }
   },

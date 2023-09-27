@@ -31,7 +31,7 @@ const tagController = {
       const { id } = req.params;
       const tag = await Tag.findByPk(id);
 
-      if (!list) {
+      if (!tag) {
         return next();
       }
 
@@ -60,7 +60,7 @@ const tagController = {
 
       return res.json(tag);
     } catch (error) {
-      console.error(err);
+      console.error(error);
       if (error.name === "SequelizeValidationError") {
         return res.status(400).json({ error: error.message });
       }

@@ -31,7 +31,7 @@ const TodoController = {
       const { id } = req.params;
       const todo = await Todo.findByPk(id);
 
-      if (!list) {
+      if (!todo) {
         return next();
       }
 
@@ -60,7 +60,7 @@ const TodoController = {
 
       return res.json(todo);
     } catch (error) {
-      console.error(err);
+      console.error(error);
       if (error.name === "SequelizeValidationError") {
         return res.status(400).json({ error: error.message });
       }
@@ -80,22 +80,7 @@ const TodoController = {
       return res.status(204).json();
     } catch (error) {
       console.error(error);
-      return res.status(500).json({error: 'Internal Server Error'});
-    }
-  },
-
-  async deleteAllTodos(req, res, next) {
-    try {
-      const deletedTodos = await Todo.destroy();
-
-      if (!deletedTodos) {
-        return next();
-      }
-
-      return res.status(204).json();
-    } catch (error) {
-      console.error(error);
-      return res.status(500).json({error: 'Internal Server Error'});
+      return res.status(500).json({ error: "Internal Server Error" });
     }
   },
 };

@@ -15,6 +15,7 @@ const cardController = {
   async createNewCard(req, res) {
     try {
       const userInput = req.body;
+
       const card = await Card.create(userInput);
 
       res.json(card);
@@ -31,7 +32,7 @@ const cardController = {
       const { id } = req.params;
       const card = await Card.findByPk(id);
 
-      if (!list) {
+      if (!card) {
         return next();
       }
 
@@ -80,7 +81,7 @@ const cardController = {
       return res.status(204).json();
     } catch (error) {
       console.error(error);
-      return res.status(500).json({error: 'Internal Server Error'});
+      return res.status(500).json({ error: "Internal Server Error" });
     }
   },
 
@@ -95,7 +96,7 @@ const cardController = {
       return res.status(204).json();
     } catch (error) {
       console.error(error);
-      return res.status(500).json({error: 'Internal Server Error'});
+      return res.status(500).json({ error: "Internal Server Error" });
     }
   },
 };

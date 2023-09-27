@@ -8,6 +8,14 @@ const tagController = require("./controllers/tagController");
 
 const router = express.Router();
 
+// Main Routes
+router.route("/boards/:id(\\d+)/cards").get(mainController.getAllCardsByBoard);
+router.route("/boards/:board_id/cards/:id(\\d+)").get(mainController.getOneCardByBoard);
+router.route("/boards/:board_id/cards/:id(\\d+)/todos").get(mainController.getAllTodosByCard).delete(mainController.deleteAllTodosByCard);
+router.route("/boards/:board_id/cards/:card_id/todos/:id(\\d+)/tag").post(mainController.CreateNewTodoHasTag);
+router.route("/boards/:board_id/cards/:card_id/todos/:todo_id(\\d+)/tag/:tag_id(\\d+)").delete(mainController.deleteTodoHasTag);
+//.get(mainController.getAllTagsByTodo)
+
 // Boards
 router.route("/boards").get(boardController.getAllBoards).post(boardController.createNewBoard).delete(boardController.deleteAllBoards);
 router.route("/boards/:id(\\d+)").get(boardController.getOneBoardByPk).patch(boardController.updateBoard).delete(boardController.deleteOneBoard);
@@ -17,7 +25,7 @@ router.route("/cards").get(cardController.getAllCards).post(cardController.creat
 router.route("/cards/:id(\\d+)").get(cardController.getOneCardByPk).patch(cardController.updateCard).delete(cardController.deleteOneCard);
 
 // Todos
-router.route("/todos").get(todoController.getAllTodos).post(todoController.createNewTodo);
+router.route("/todos").get(todoController.getAllTodos).post(todoController.createNewTodo)
 router.route("/todos/:id(\\d+)").get(todoController.getOneTodoByPk).patch(todoController.updateTodo).delete(todoController.deleteOneTodo);
 
 // Tags

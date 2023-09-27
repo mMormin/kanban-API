@@ -1,72 +1,258 @@
-### Erreur 404
-GET http://localhost:3000/fdefbqr
+##############################
+#      ITEMS FROM BOARD      #
+##############################
+### GET ALL CARDS BY BOARD ID
+GET http://localhost:3000/boards/2/cards
 
-### GET ALL BOARDS
+### GET ALL ERROR
+GET http://localhost:3000/boards/420/cards
+
+### GET ONE CARD BY IDs
+GET http://localhost:3000/boards/2/cards/3
+
+### GET ONE ERROR
+GET http://localhost:3000/boards/420/cards/420
+
+### GET ALL TODOS BY CARD
+GET http://localhost:3000/boards/1/cards/1/todos
+
+### DELETE ALL TODOS BY CARD
+DELETE http://localhost:3000/boards/2/cards/3/todos
+
+### ASSOCIATE TODO AND TAG
+POST http://localhost:3000/boards/1/cards/1/todos/1/tag HTTP/1.1
+Content-Type: application/json
+
+{
+  "name": "Loisirs",
+}
+
+### ASSOCIATE TODO AND TAG URLENCODED
+POST http://localhost:3000/boards/1/cards/1/todos/1/tag
+Content-Type: application/x-www-form-urlencoded
+
+name=Loisirs
+
+### DELETE TODO AND TAG ASSOCIATION
+DELETE http://localhost:3000/boards/1/cards/1/todos/1/tag/5
+
+
+
+##############################
+#           BOARDS           #
+##############################
+### GET ALL BOARD
 GET http://localhost:3000/boards
 
 ### GET ONE BOARD
-GET http://localhost:3000/boards/1
+GET http://localhost:3000/boards/2
 
-### Récupération d'une liste en particulier
-GET http://localhost:3000/cards/2
-
-### Récupération d'une liste mal formaté
-GET http://localhost:3000/lists/dsfsd
-
-### Récupération d'une liste qui n'existe pas
-GET http://localhost:3000/lists/1234
-
-### Créer une liste en JSON
-POST http://localhost:3000/lists
+### CREATE NEW BOARD
+POST http://localhost:3000/boards HTTP/1.1
 Content-Type: application/json
 
 {
-  "name": "Liste de test"
+  "title": "New Board Test",
+  "description": "",
+  "member_id": 1
 }
 
-### Créer une liste en urlEncoded machin=1&truc=2 (Format de soumission des formulaires des navigateur web)
-POST http://localhost:3000/lists
+### CREATE NEW BOARD URLENCODED
+POST http://localhost:3000/boards
 Content-Type: application/x-www-form-urlencoded
 
-name=Liste de test 2
+title=Test&description=This is my test board yo!&member_id=1
 
-### Créer une liste en JSON qui tombe en erreur
-POST http://localhost:3000/lists
+### CREATE ERROR
+POST http://localhost:3000/boards
 Content-Type: application/json
 
-### Mettre à jour une liste en JSON
-PATCH http://localhost:3000/lists/1
+### UPDATE BOARD
+PATCH http://localhost:3000/boards/6
+Content-Type: application/json
+
+{
+  "title": "Updated Board !"
+}
+
+### UPDATE BOARD URLENCODED
+PATCH http://localhost:3000/boards/6
+Content-Type: application/x-www-form-urlencoded
+
+title=New Title&description=Because I'm edited yo
+### ERROR
+PATCH http://localhost:3000/boards/1234
 Content-Type: application/json
 
 {
   "name": "Liste updated"
 }
 
-### Mettre à jour une liste en JSON en erreur
-PATCH http://localhost:3000/lists/1234
-Content-Type: application/json
+### DELETE BOARD
+DELETE http://localhost:3000/boards/6
 
-{
-  "name": "Liste updated"
-}
-
-### Suppression d'une liste
-DELETE http://localhost:3000/lists/1
-
-### Suppression d'une liste en erreur
-DELETE http://localhost:3000/lists/1234
+### DELETE ALL BOARDS
+DELETE http://localhost:3000/boards
 
 
-### Ajouter une carte
+
+##############################
+#           CARDS            #
+##############################
+### GET ALL CARDS
+GET http://localhost:3000/cards
+
+### GET ONE CARD
+GET http://localhost:3000/cards/2
+
+### CREATE NEW CARD
 POST http://localhost:3000/cards
 Content-Type: application/json
 
 {
-  "title": "titre de la carte",
-  "position": "1",
+  "title": "New Card Test",
+  "position": 5,
   "color": "#00FF00",
-  "list_id": 2
+  "board_id": 2
 }
 
-### Récupération de toutes les cartes
-GET http://localhost:3000/cards
+### CREATE NEW CARD URLENCODED 
+POST http://localhost:3000/boards
+Content-Type: application/x-www-form-urlencoded
+
+title=New Test Card&position=5&color=#00FF00&board_id=2
+
+### UPDATE CARD
+PATCH http://localhost:3000/cards/6
+Content-Type: application/json
+
+{
+  "title": "Updated Board !"
+}
+
+### UPDATE CARD URLENCODED
+PATCH http://localhost:3000/cards/6
+Content-Type: application/x-www-form-urlencoded
+
+title=New Title&description=Because I'm edited yo
+
+### UPDATE ERROR
+PATCH http://localhost:3000/cards/1234
+Content-Type: application/json
+
+{
+  "title": "Liste updated"
+}
+
+### DELETE CARD
+DELETE http://localhost:3000/cards/6
+
+### DELETE ALL CARDS
+DELETE http://localhost:3000/cards
+
+
+
+##############################
+#           TODOS            #
+##############################
+### GET ALL TODOS
+GET http://localhost:3000/todos
+
+### GET ONE TODO
+GET http://localhost:3000/todos/2
+
+### CREATE NEW TODO
+POST http://localhost:3000/todos
+Content-Type: application/json
+
+{
+  "title": "New Todo Test",
+  "position": 10,
+  "color": "new color",
+  "card_id": 1
+}
+
+### CREATE NEW TODO URLENCODED 
+POST http://localhost:3000/todos
+Content-Type: application/x-www-form-urlencoded
+
+title=New Todo Test&position=10&color=new color&card_id=1
+
+### UPDATE TODO
+PATCH http://localhost:3000/todos/15
+Content-Type: application/json
+
+{
+  "title": "Updated Todo !"
+}
+
+### UPDATE TODO URLENCODED
+PATCH http://localhost:3000/todos/15
+Content-Type: application/x-www-form-urlencoded
+
+title=Updated Todo !
+
+### UPDATE ERROR
+PATCH http://localhost:3000/todos/1234
+Content-Type: application/json
+
+{
+  "title": "Liste updated"
+}
+
+### DELETE TODO
+DELETE http://localhost:3000/todos/15
+
+
+##############################
+#           TAGS            #
+##############################
+### GET ALL TAGS
+GET http://localhost:3000/tags
+
+### GET ONE TAG
+GET http://localhost:3000/tags/6
+
+### CREATE NEW TAG
+POST http://localhost:3000/tags
+Content-Type: application/json
+
+{
+  "name": "New Test Tag",
+  "position": 5,
+  "color": "colored"
+}
+
+### CREATE NEW TAG URLENCODED 
+POST http://localhost:3000/tags
+Content-Type: application/x-www-form-urlencoded
+
+name=New Test Tag&position=5&color=colored
+
+### UPDATE TAG
+PATCH http://localhost:3000/tags/6
+Content-Type: application/json
+
+{
+  "name": "Updated Tag !"
+}
+
+### UPDATE TAG URLENCODED
+PATCH http://localhost:3000/tags/6
+Content-Type: application/x-www-form-urlencoded
+
+name=Updated Tag !
+
+### UPDATE TAG ERROR
+PATCH http://localhost:3000/tags/1234
+Content-Type: application/json
+
+{
+  "title": "Liste updated"
+}
+
+### DELETE TAG
+DELETE http://localhost:3000/tags/6
+
+### DELETE ALL TAGS
+DELETE http://localhost:3000/tags
