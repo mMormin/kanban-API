@@ -9,6 +9,17 @@ const mainController = {
         where: {
           board_id: id,
         },
+        include: [
+          {
+            association: "todos",
+            include: [{ association: "tags" }],
+          },
+        ],
+        order: [
+          ["id", "ASC"],
+          ["todos", "position", "ASC"],
+          ["todos", "tags", "name", "ASC"],
+        ],
       });
 
       if (!cards.length) {
@@ -26,7 +37,13 @@ const mainController = {
     try {
       const { id } = req.params;
 
-      const card = await Card.findByPk(id);
+      const card = await Card.findByPk(id, {
+        include: [{ association: "todos", include: [{ association: "tags" }] }],
+        order: [
+          ["todos", "position", "ASC"],
+          ["todos", "tags", "name", "ASC"],
+        ],
+      });
 
       if (!card) {
         return next();
@@ -42,7 +59,13 @@ const mainController = {
   async getAllTodosByCard(req, res, next) {
     try {
       const { id } = req.params;
-      const todos = await Todo.findByPk(id);
+      const todos = await Todo.findByPk(id, {
+        include: [{ association: "tags" }],
+        order: [
+          ["position", "ASC"],
+          ["tags", "name", "ASC"],
+        ],
+      });
 
       if (!todos) {
         return next();

@@ -10,9 +10,9 @@ const router = express.Router();
 
 // Main Routes
 router.route("/boards/:id(\\d+)/cards").get(mainController.getAllCardsByBoard);
-router.route("/boards/:board_id/cards/:id(\\d+)").get(mainController.getOneCardByBoard);
-router.route("/boards/:board_id/cards/:id(\\d+)/todos").get(mainController.getAllTodosByCard).delete(mainController.deleteAllTodosByCard);
-router.route("/boards/:board_id/cards/:card_id/todos/:id(\\d+)/tag").post(mainController.CreateNewTodoHasTag);
+router.route("/boards/:board_id(\\d+)/cards/:id(\\d+)").get(mainController.getOneCardByBoard);
+router.route("/boards/:board_id(\\d+)/cards/:id(\\d+)/todos").get(mainController.getAllTodosByCard).delete(mainController.deleteAllTodosByCard);
+router.route("/boards/:board_id(\\d+)/cards/:card_id/todos/:id(\\d+)/tag").post(mainController.CreateNewTodoHasTag);
 router.route("/boards/:board_id/cards/:card_id/todos/:todo_id(\\d+)/tag/:tag_id(\\d+)").delete(mainController.deleteTodoHasTag);
 //.get(mainController.getAllTagsByTodo)
 
