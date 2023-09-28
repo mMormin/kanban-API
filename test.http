@@ -29,16 +29,20 @@ DELETE http://localhost:3000/boards/1/cards/420/todos
 ### ASSOCIATE TODO ID WITH TAG IG
 POST http://localhost:3000/boards/1/cards/1/todos/1/tag HTTP/1.1
 Content-Type: application/json
+
 {
   "name": "Loisirs",
 }
 ### URL ENCODED
 POST http://localhost:3000/boards/1/cards/1/todos/1/tag
 Content-Type: application/x-www-form-urlencoded
+
 name=Loisirs
+
 ### ERROR CHECK
 POST http://localhost:3000/boards/1/cards/1/todos/1/tag
 Content-Type: application/x-www-form-urlencoded
+
 name=qhfiuehfquhfnd
 
 
@@ -66,6 +70,7 @@ GET http://localhost:3000/boards/420
 ### CREATE NEW BOARD
 POST http://localhost:3000/boards HTTP/1.1
 Content-Type: application/json
+
 {
   "title": "New Board Test",
   "description": "",
@@ -74,25 +79,33 @@ Content-Type: application/json
 ### URL ENCODED
 POST http://localhost:3000/boards
 Content-Type: application/x-www-form-urlencoded
+
 title=Test&description=This is my test board yo!&member_id=1
+
 ### ERROR CHECK
 POST http://localhost:3000/boards
-Content-Type: application/json
+Content-Type: application/x-www-form-urlencoded
+
+tilot=Test&description=This is my test board yo!&member_id=1
 
 
 ### UPDATE BOARD BY ID
 PATCH http://localhost:3000/boards/6
 Content-Type: application/json
+
 {
   "title": "Updated Board !"
 }
 ### URL ENCODED
 PATCH http://localhost:3000/boards/6
 Content-Type: application/x-www-form-urlencoded
+
 title=New Title&description=Because I'm edited yo
+
 ### ERROR CHECK
 PATCH http://localhost:3000/boards/420
 Content-Type: application/x-www-form-urlencoded
+
 asperge=New veg&description=okgoogle
 
 
@@ -123,6 +136,7 @@ GET http://localhost:3000/cards/420
 ### CREATE NEW CARD
 POST http://localhost:3000/cards
 Content-Type: application/json
+
 {
   "title": "New Card Test",
   "position": 5,
@@ -132,26 +146,33 @@ Content-Type: application/json
 ### URL ENCODED 
 POST http://localhost:3000/cards
 Content-Type: application/x-www-form-urlencoded
+
 title=New Test Card&position=5&color=#00FF00&board_id=2
-### ERROR
+
+### ERROR CHECK
 POST http://localhost:3000/cards
 Content-Type: application/x-www-form-urlencoded
+
 titre=New Test Card&polposition=5&colorisation=#00FF00&board_id=2
 
 
 ### UPDATE CARD
 PATCH http://localhost:3000/cards/6
 Content-Type: application/json
+
 {
   "title": "Updated Board !"
 }
 ### URL ENCODED
 PATCH http://localhost:3000/cards/6
 Content-Type: application/x-www-form-urlencoded
+
 title=New Title&description=Because I'm edited yo
+
 ### ERROR CHECK
 PATCH http://localhost:3000/cards/420
 Content-Type: application/x-www-form-urlencoded
+
 tile=New Title&kription=Because I'm edited yo
 
 
@@ -183,6 +204,7 @@ GET http://localhost:3000/todos/420
 ### CREATE NEW TODO
 POST http://localhost:3000/todos
 Content-Type: application/json
+
 {
   "title": "New Todo Test",
   "position": 10,
@@ -192,26 +214,33 @@ Content-Type: application/json
 ### URL ENCODED 
 POST http://localhost:3000/todos
 Content-Type: application/x-www-form-urlencoded
+
 title=New Todo Test&position=10&color=new color&card_id=1
+
 ### ERROR CHECK
 POST http://localhost:3000/todos
 Content-Type: application/x-www-form-urlencoded
+
 tile=New Todo Test&position=10&color=new color&card_id=1
 
 
 ### UPDATE TODO
 PATCH http://localhost:3000/todos/15
 Content-Type: application/json
+
 {
   "title": "Updated Todo !"
 }
 ### URL ENCODED
 PATCH http://localhost:3000/todos/15
 Content-Type: application/x-www-form-urlencoded
+
 title=Updated Todo !
+
 ### ERROR CHECK
 PATCH http://localhost:3000/todos/420
 Content-Type: application/x-www-form-urlencoded
+
 title=Updated Todo !
 
 
@@ -239,6 +268,7 @@ GET http://localhost:3000/tags/420
 ### CREATE NEW TAG
 POST http://localhost:3000/tags
 Content-Type: application/json
+
 {
   "name": "New Test Tag",
   "position": 5,
@@ -247,26 +277,33 @@ Content-Type: application/json
 ### URL ENCODED 
 POST http://localhost:3000/tags
 Content-Type: application/x-www-form-urlencoded
+
 name=New Test Tag&position=5&color=colored
+
 ### ERROR CHECK
 POST http://localhost:3000/tags
 Content-Type: application/x-www-form-urlencoded
+
 nom=New Test Tag&position=5&color=colored
 
 
 ### UPDATE TAG
 PATCH http://localhost:3000/tags/6
 Content-Type: application/json
+
 {
   "name": "Updated Tag !"
 }
 ### URL ENCODED
 PATCH http://localhost:3000/tags/6
 Content-Type: application/x-www-form-urlencoded
+
 name=Updated Tag !
+
 ### ERROR CHECK
 PATCH http://localhost:3000/tags/420
 Content-Type: application/x-www-form-urlencoded
+
 name=Updated Tag !
 
 
