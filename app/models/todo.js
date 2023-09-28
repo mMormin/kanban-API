@@ -9,12 +9,13 @@ Todo.init(
       type: DataTypes.TEXT,
       allowNull: false,
       validate: {
-        notEmpty: true,
+        notEmpty: { msg: "title cannot be empty" },
+        notNull: { msg: "title cannot be NULL" },
       },
     },
     position: {
       type: DataTypes.INTEGER,
-      allowNull: false,
+      isInt: { msg: "Invalid type: position should be a number" },
     },
   },
   {

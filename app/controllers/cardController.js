@@ -12,13 +12,22 @@ const cardController = {
     }
   },
 
-  async createNewCard(req, res) {
+  async createNewCard(req, res, next) {
     try {
-      const userInput = req.body;
+      let { title, position } = req.body;
+      const board_id = 1;
 
-      const card = await Card.create(userInput);
+      if (!position) {
+        position = 0;
+      }
 
-      res.json(card);
+      if (!title) {
+        return next();
+      }
+
+      const card = await Card.create({ title, board_id, position });
+
+      return res.status(201).json(card);
     } catch (error) {
       if (error.name === "SequelizeValidationError") {
         return res.status(400).json({ error: error.message });

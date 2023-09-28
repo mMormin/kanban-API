@@ -9,7 +9,8 @@ Board.init(
       type: DataTypes.TEXT,
       allowNull: false,
       validate: {
-        notEmpty: true,
+        notEmpty: { msg: "title cannot be empty" },
+        notNull: { msg: "title cannot be NULL" },
       },
     },
     description: {

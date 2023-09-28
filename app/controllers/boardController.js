@@ -16,15 +16,18 @@ const boardController = {
     }
   },
 
-  async createNewBoard(req, res) {
+  async createNewBoard(req, res, next) {
     try {
-      const userInputs = req.body;
-      
-      console.log(userInputs)
+      const { title, description } = req.body;
+      const member_id = 1;
 
-      const board = await Board.create(userInputs);
+      if (!title || !description) {
+        return next();
+      }
 
-      return res.json(board);
+      const board = await Board.create({title, description, member_id});
+
+      return res.status(201).json(board);
     } catch (error) {
       if (error.name === "SequelizeValidationError") {
         return res.status(400).json({ error: error.message });

@@ -12,12 +12,21 @@ const TodoController = {
     }
   },
 
-  async createNewTodo(req, res) {
+  async createNewTodo(req, res, next) {
     try {
-      const userInput = req.body;
-      const todo = await Todo.create(userInput);
+      let { title, position } = req.body;
+      const card_id = 1;
 
-      res.json(todo);
+      if (!position) {
+        position = 0;
+      }
+
+      if (!title) {
+        return next();
+      }
+      const todo = await Todo.create({title, card_id, position});
+
+      return res.status(201).json(todo);
     } catch (error) {
       if (error.name === "SequelizeValidationError") {
         return res.status(400).json({ error: error.message });

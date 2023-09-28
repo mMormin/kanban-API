@@ -68,19 +68,18 @@ GET http://localhost:3000/boards/420
 
 
 ### CREATE NEW BOARD
-POST http://localhost:3000/boards HTTP/1.1
+POST http://localhost:3000/boards
 Content-Type: application/json
 
 {
   "title": "New Board Test",
-  "description": "",
-  "member_id": 1
+  "description": "This is my test board yo!"
 }
 ### URL ENCODED
 POST http://localhost:3000/boards
 Content-Type: application/x-www-form-urlencoded
 
-title=Test&description=This is my test board yo!&member_id=1
+title=Test&description=This is my test board yo!
 
 ### ERROR CHECK
 POST http://localhost:3000/boards
@@ -139,21 +138,18 @@ Content-Type: application/json
 
 {
   "title": "New Card Test",
-  "position": 5,
-  "color": "#00FF00",
-  "board_id": 2
 }
 ### URL ENCODED 
 POST http://localhost:3000/cards
 Content-Type: application/x-www-form-urlencoded
 
-title=New Test Card&position=5&color=#00FF00&board_id=2
+title=New Test Card
 
 ### ERROR CHECK
 POST http://localhost:3000/cards
 Content-Type: application/x-www-form-urlencoded
 
-titre=New Test Card&polposition=5&colorisation=#00FF00&board_id=2
+tile=New Test Card
 
 
 ### UPDATE CARD

@@ -12,12 +12,17 @@ const tagController = {
     }
   },
 
-  async createNewTag(req, res) {
+  async createNewTag(req, res, next) {
     try {
-      const userInput = req.body;
-      const tag = await Tag.create(userInput);
+      const { name } = req.body;
 
-      res.json(tag);
+      if (!name) {
+        return next();
+      }
+
+      const tag = await Tag.create({name});
+
+      return res.status(201).json(tag);
     } catch (error) {
       if (error.name === "SequelizeValidationError") {
         return res.status(400).json({ error: error.message });

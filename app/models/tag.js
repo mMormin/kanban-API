@@ -9,13 +9,18 @@ Tag.init(
       type: DataTypes.TEXT,
       allowNull: false,
       validate: {
-        notEmpty: true,
+        notEmpty: { msg: "name cannot be empty" },
+        notNull: { msg: "name cannot be NULL" },
       },
     },
     color: {
       type: DataTypes.INTEGER,
       allowNull: false,
       default: "#FFF",
+      validate: {
+        notNull: { msg: "color cannot be NULL" },
+        notEmpty: { msg: "color cannot be empty" },
+      }
     },
   },
   {
