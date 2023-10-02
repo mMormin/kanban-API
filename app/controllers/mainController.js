@@ -56,6 +56,33 @@ const mainController = {
     }
   },
 
+  async createNewCardFromBoard(req, res) {
+    try {
+      const { id } = req.params;
+      let { title } = req.body;
+      let { position } = req.body;
+      const board_id = id;
+
+      if (!position) {
+        position = "0";
+      }
+      
+      if (!title) {
+        return next();
+      }
+
+      const card = await Card.create({ title, board_id, position });
+
+      return res.status(201).json(card);
+    } catch (error) {
+      if (error.name === "SequelizeValidationError") {
+        return res.status(400).json({ error: error.message });
+      }
+      return res.status(500).json({ error: "Internal Server Error" });
+    }
+  },
+  
+
   async getAllTodosByCard(req, res, next) {
     try {
       const { id } = req.params;
@@ -85,17 +112,11 @@ const mainController = {
 
       const { id } = req.params;
 
-      const cards = await Card.findAll({
+      const cards = await Card.destroy({
         where: {
           board_id: id,
         },
       });
-
-      if (!cards.length) {
-        return next();
-      }
-
-      await cards.destroy();
 
       return res.status(204).json();
     } catch (error) {

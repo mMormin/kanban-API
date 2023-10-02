@@ -8,6 +8,24 @@ GET http://localhost:3000/boards/1/cards
 GET http://localhost:3000/boards/420/cards
 
 
+### CREATE NEW CARD BY BOARD ID
+POST http://localhost:3000/boards/1/cards
+Content-Type: application/json
+Accept: application/json
+
+{
+  "title": "Nouvelle carte"
+}
+
+### ERROR CHECK
+POST http://localhost:3000/boards/420/cards
+Content-Type: application/json
+Accept: application/json
+
+{
+  "FEF": "Loisirs",
+}
+
 ### DELETE ALL CARDS BY BOARD ID
 DELETE http://localhost:3000/boards/1/cards
 ### ERROR CHECK
