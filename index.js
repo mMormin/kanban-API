@@ -4,10 +4,16 @@ const port = process.env.PORT;
 
 // Deps Imports
 const express = require("express");
+var cors = require('cors');
 const router = require("./app/router");
 
 // Express Initialization
 const app = express();
+
+// Cors Initialization
+app.use(cors());
+
+// Ejs Initialization
 app.set("view engine", "ejs");
 app.set("views", "app/views");
 app.use(express.static("public"));
@@ -17,6 +23,7 @@ app.use(express.urlencoded({ extended: true }));
 
 // Router Initialization
 app.use(router);
+
 
 // Server Initialization and Database Connexion Check
 const serverStart = async () => {

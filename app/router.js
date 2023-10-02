@@ -9,7 +9,7 @@ const tagController = require("./controllers/tagController");
 const router = express.Router();
 
 // Main Routes
-router.route("/boards/:id(\\d+)/cards").get(mainController.getAllCardsByBoard);
+router.route("/boards/:id(\\d+)/cards").get(mainController.getAllCardsByBoard).delete(mainController.deleteAllCardsByBoard);
 router.route("/boards/:board_id(\\d+)/cards/:id(\\d+)").get(mainController.getOneCardByBoard);
 router.route("/boards/:board_id(\\d+)/cards/:id(\\d+)/todos").get(mainController.getAllTodosByCard).delete(mainController.deleteAllTodosByCard);
 router.route("/boards/:board_id(\\d+)/cards/:card_id/todos/:id(\\d+)/tag").post(mainController.CreateNewTodoHasTag);

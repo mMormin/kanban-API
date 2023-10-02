@@ -78,6 +78,32 @@ const mainController = {
     }
   },
 
+  async deleteAllCardsByBoard(req, res, next) {
+    try {
+
+      console.log("HI THERE")
+
+      const { id } = req.params;
+
+      const cards = await Card.findAll({
+        where: {
+          board_id: id,
+        },
+      });
+
+      if (!cards.length) {
+        return next();
+      }
+
+      await cards.destroy();
+
+      return res.status(204).json();
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({ error: "Internal Server Error" });
+    }
+  },
+
   async deleteAllTodosByCard(req, res, next) {
     try {
       const { id } = req.params;

@@ -3,9 +3,15 @@
 ##############################
 
 ### GET ALL CARDS BY BOARD ID
-GET http://localhost:3000/boards/2/cards
+GET http://localhost:3000/boards/1/cards
 ### ERROR CHECK
 GET http://localhost:3000/boards/420/cards
+
+
+### DELETE ALL CARDS BY BOARD ID
+DELETE http://localhost:3000/boards/1/cards
+### ERROR CHECK
+DELETE http://localhost:3000/boards/420/cards
 
 
 ### GET ONE CARD BY BOARD ID
