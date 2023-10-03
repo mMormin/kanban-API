@@ -80,6 +80,32 @@ const mainController = {
       return res.status(500).json({ error: "Internal Server Error" });
     }
   },
+
+  async updateCardFromBoard(req, res, next) {
+    try {
+      const { card_id } = req.params;
+      const userInput = req.body;
+
+      const result = await Card.update(userInput, {
+        where: { id: card_id },
+        returning: true,
+      });
+
+      const [, [card]] = result;
+
+      if (!card) {
+        return next();
+      }
+
+      return res.json(card);
+    } catch (error) {
+      console.error(err);
+      if (error.name === "SequelizeValidationError") {
+        return res.status(400).json({ error: error.message });
+      }
+      return res.status(500).json({ error: "Internal Server Error" });
+    }
+  },
   
   async createNewTodoByCard(req, res, next) {
     try {

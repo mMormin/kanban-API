@@ -12,7 +12,7 @@ const router = express.Router();
 // boards/:id/cards
 router.route("/boards/:board_id(\\d+)/cards").get(mainController.getAllCardsByBoard).post(mainController.createNewCardFromBoard).delete(mainController.deleteAllCardsByBoard);
 // boards/:id/cards/:id
-router.route("/boards/:board_id(\\d+)/cards/:card_id(\\d+)").get(mainController.getOneCardByBoard);
+router.route("/boards/:board_id(\\d+)/cards/:card_id(\\d+)").get(mainController.getOneCardByBoard).patch(mainController.updateCardFromBoard);
 // boards/:id/cards/:id/todos
 router.route("/boards/:board_id(\\d+)/cards/:card_id(\\d+)/todos").post(mainController.createNewTodoByCard).get(mainController.getAllTodosByCard).delete(mainController.deleteAllTodosByCard);
 // boards/:id/cards/:id/todos/:id
