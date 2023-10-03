@@ -16,7 +16,6 @@ Accept: application/json
 {
   "title": "Nouvelle carte"
 }
-
 ### ERROR CHECK
 POST http://localhost:3000/boards/420/cards
 Content-Type: application/json
@@ -25,7 +24,6 @@ Accept: application/json
 {
   "FEF": "Loisirs",
 }
-
 ### DELETE ALL CARDS BY BOARD ID
 DELETE http://localhost:3000/boards/1/cards
 ### ERROR CHECK
@@ -33,7 +31,7 @@ DELETE http://localhost:3000/boards/420/cards
 
 
 ### GET ONE CARD BY BOARD ID
-GET http://localhost:3000/boards/2/cards/3
+GET http://localhost:3000/boards/2/cards/1
 ### ERROR CHECK
 GET http://localhost:3000/boards/2/cards/420
 
@@ -42,6 +40,14 @@ GET http://localhost:3000/boards/2/cards/420
 GET http://localhost:3000/boards/1/cards/1/todos
 ### ERROR CHECK
 GET http://localhost:3000/boards/1/cards/420/todos
+
+### UPDATE TODO BY CARD AND TODO ID
+PATCH http://localhost:3000/boards/1/cards/6/todos/26
+Content-Type: application/json
+
+{
+  "title": "Updated Card yayy"
+}
 
 
 ### DELETE ALL TODOS BY CARD ID

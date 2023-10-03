@@ -3,11 +3,11 @@ const { Card, Todo, Tag } = require("../models/index");
 const mainController = {
   async getAllCardsByBoard(req, res, next) {
     try {
-      const { id } = req.params;
+      const { board_id } = req.params;
 
       const cards = await Card.findAll({
         where: {
-          board_id: id,
+          board_id,
         },
         include: [
           {
@@ -35,9 +35,9 @@ const mainController = {
 
   async getOneCardByBoard(req, res, next) {
     try {
-      const { id } = req.params;
+      const { card_id } = req.params;
 
-      const card = await Card.findByPk(id, {
+      const card = await Card.findByPk(card_id, {
         include: [{ association: "todos", include: [{ association: "tags" }] }],
         order: [
           ["todos", "position", "ASC"],
@@ -56,12 +56,11 @@ const mainController = {
     }
   },
 
-  async createNewCardFromBoard(req, res) {
+  async createNewCardFromBoard(req, res, next) {
     try {
-      const { id } = req.params;
+      const { board_id } = req.params;
       let { title } = req.body;
       let { position } = req.body;
-      const board_id = id;
 
       if (!position) {
         position = "0";
@@ -82,11 +81,35 @@ const mainController = {
     }
   },
   
+  async createNewTodoByCard(req, res, next) {
+    try {
+      const { card_id } = req.params;
+      const { title } = req.body;
+      let { position } = req.body;
+
+      if (!position) {
+        position = "0";
+      }
+
+      if (!title) {
+        return next();
+      }
+
+      const todo = await Todo.create({title, card_id, position});
+
+      return res.status(201).json(todo);
+    } catch (error) {
+      if (error.name === "SequelizeValidationError") {
+        return res.status(400).json({ error: error.message });
+      }
+      return res.status(500).json({ error: "Internal Server Error" });
+    }
+  },
 
   async getAllTodosByCard(req, res, next) {
     try {
-      const { id } = req.params;
-      const todos = await Todo.findByPk(id, {
+      const { card_id } = req.params;
+      const todos = await Todo.findByPk(card_id, {
         include: [{ association: "tags" }],
         order: [
           ["position", "ASC"],
@@ -104,17 +127,59 @@ const mainController = {
       return res.status(500).json({ error: "Internal Server Error" });
     }
   },
+  
+  async updateTodoByCard(req, res, next) {
+    try {
+      const { todo_id, card_id } = req.params;
+      const userInput = req.body;
+
+      const result = await Todo.update(userInput, {
+        where: { id: todo_id, card_id },
+        returning: true,
+      });
+
+      const [, [todo]] = result;
+
+      if (!todo) {
+        return next();
+      }
+
+      return res.json(todo);
+    } catch (error) {
+      console.error(error);
+      if (error.name === "SequelizeValidationError") {
+        return res.status(400).json({ error: error.message });
+      }
+      return res.status(500).json({ error: "Internal Server Error" });
+    }
+  },
+
+  async deleteTodoByCard(req, res) {
+    try {
+      const { todo_id, card_id } = req.params;
+
+      await Todo.destroy({
+        where: {
+          id: todo_id,
+          card_id,
+        },
+      });
+
+      return res.status(204).json();
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({ error: "Internal Server Error" });
+    }
+  },
+  
 
   async deleteAllCardsByBoard(req, res, next) {
     try {
+      const { board_id } = req.params;
 
-      console.log("HI THERE")
-
-      const { id } = req.params;
-
-      const cards = await Card.destroy({
+      await Card.destroy({
         where: {
-          board_id: id,
+          board_id,
         },
       });
 
@@ -127,8 +192,8 @@ const mainController = {
 
   async deleteAllTodosByCard(req, res, next) {
     try {
-      const { id } = req.params;
-      const todos = await Todo.findByPk(id);
+      const { card_id } = req.params;
+      const todos = await Todo.findByPk(card_id);
 
       if (!todos) {
         return next();

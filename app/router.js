@@ -9,12 +9,16 @@ const tagController = require("./controllers/tagController");
 const router = express.Router();
 
 // Main Routes
-router.route("/boards/:id(\\d+)/cards").get(mainController.getAllCardsByBoard).post(mainController.createNewCardFromBoard).delete(mainController.deleteAllCardsByBoard);
-router.route("/boards/:board_id(\\d+)/cards/:id(\\d+)").get(mainController.getOneCardByBoard);
-router.route("/boards/:board_id(\\d+)/cards/:id(\\d+)/todos").get(mainController.getAllTodosByCard).delete(mainController.deleteAllTodosByCard);
+// boards/:id/cards
+router.route("/boards/:board_id(\\d+)/cards").get(mainController.getAllCardsByBoard).post(mainController.createNewCardFromBoard).delete(mainController.deleteAllCardsByBoard);
+// boards/:id/cards/:id
+router.route("/boards/:board_id(\\d+)/cards/:card_id(\\d+)").get(mainController.getOneCardByBoard);
+// boards/:id/cards/:id/todos
+router.route("/boards/:board_id(\\d+)/cards/:card_id(\\d+)/todos").post(mainController.createNewTodoByCard).get(mainController.getAllTodosByCard).delete(mainController.deleteAllTodosByCard);
+// boards/:id/cards/:id/todos/:id
+router.route("/boards/:board_id(\\d+)/cards/:card_id(\\d+)/todos/:todo_id").post(mainController.createNewTodoByCard).patch(mainController.updateTodoByCard).delete(mainController.deleteTodoByCard);
 router.route("/boards/:board_id(\\d+)/cards/:card_id/todos/:id(\\d+)/tag").post(mainController.CreateNewTodoHasTag);
 router.route("/boards/:board_id/cards/:card_id/todos/:todo_id(\\d+)/tag/:tag_id(\\d+)").delete(mainController.deleteTodoHasTag);
-//.get(mainController.getAllTagsByTodo)
 
 // Boards
 router.route("/boards").get(boardController.getAllBoards).post(boardController.createNewBoard).delete(boardController.deleteAllBoards);
