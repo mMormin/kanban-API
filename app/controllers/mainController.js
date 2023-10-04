@@ -197,7 +197,22 @@ const mainController = {
       return res.status(500).json({ error: "Internal Server Error" });
     }
   },
-  
+
+  async deleteOneCardFromBoard(req, res, next) {
+    try {
+      const { card_id } = req.params;
+      const deletedCard = await Card.destroy({ where: { id: card_id } });
+
+      if (!deletedCard) {
+        return next();
+      }
+
+      return res.status(204).json();
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({ error: "Internal Server Error" });
+    }
+  },
 
   async deleteAllCardsByBoard(req, res, next) {
     try {
