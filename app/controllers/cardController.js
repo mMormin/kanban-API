@@ -12,15 +12,48 @@ const cardController = {
     }
   },
 
-  async createNewCard(req, res, next) {
+  async getAllCardsWithTodos(req, res, next) {
     try {
-      let { title, position } = req.body;
-      const board_id = 1;
+      const { board_id } = req.params;
 
-      if (!position) {
-        position = 0;
+      const cards = await Card.findAll({
+        where: {
+          board_id,
+        },
+        include: [
+          {
+            association: "todos",
+            include: [{ association: "tags" }],
+          },
+        ],
+        order: [
+          ["id", "ASC"],
+          ["todos", "position", "ASC"],
+          ["todos", "tags", "name", "ASC"],
+        ],
+      });
+
+      if (!cards.length) {
+        return next();
       }
 
+      return res.json(cards);
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({ error: "Internal Server Error" });
+    }
+  },
+
+  async postNewCard(req, res, next) {
+    try {
+      const { board_id } = req.params;
+      let { title } = req.body;
+      let { position } = req.body;
+
+      if (!position) {
+        position = "0";
+      }
+      
       if (!title) {
         return next();
       }
@@ -52,13 +85,36 @@ const cardController = {
     }
   },
 
+  async getOneCardWithTodosByPk(req, res, next) {
+    try {
+      const { card_id } = req.params;
+
+      const card = await Card.findByPk(card_id, {
+        include: [{ association: "todos", include: [{ association: "tags" }] }],
+        order: [
+          ["todos", "position", "ASC"],
+          ["todos", "tags", "name", "ASC"],
+        ],
+      });
+
+      if (!card) {
+        return next();
+      }
+
+      return res.json(card);
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({ error: "Internal Server Error" });
+    }
+  },
+
   async updateCard(req, res, next) {
     try {
-      const { id } = req.params;
+      const { card_id } = req.params;
       const userInput = req.body;
 
       const result = await Card.update(userInput, {
-        where: { id },
+        where: { id: card_id },
         returning: true,
       });
 
@@ -80,12 +136,29 @@ const cardController = {
 
   async deleteOneCard(req, res, next) {
     try {
-      const { id } = req.params;
-      const deletedCard = await Card.destroy({ where: { id } });
+      const { card_id } = req.params;
+      const deletedCard = await Card.destroy({ where: { id: card_id } });
 
       if (!deletedCard) {
         return next();
       }
+
+      return res.status(204).json();
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({ error: "Internal Server Error" });
+    }
+  },
+
+  async deleteAllCardsByBoard(req, res, next) {
+    try {
+      const { board_id } = req.params;
+
+      await Card.destroy({
+        where: {
+          board_id,
+        },
+      });
 
       return res.status(204).json();
     } catch (error) {

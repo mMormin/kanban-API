@@ -12,19 +12,43 @@ const TodoController = {
     }
   },
 
-  async createNewTodo(req, res, next) {
+  async getAllTodosByCardPk(req, res, next) {
     try {
-      let { title, position } = req.body;
-      const card_id = 1;
+      const { card_id } = req.params;
+      const todos = await Todo.findByPk(card_id, {
+        include: [{ association: "tags" }],
+        order: [
+          ["position", "ASC"],
+          ["tags", "name", "ASC"],
+        ],
+      });
+
+      if (!todos) {
+        return next();
+      }
+
+      return res.json(todos);
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({ error: "Internal Server Error" });
+    }
+  },
+
+  async createNewTodoByCard(req, res, next) {
+    try {
+      const { card_id } = req.params;
+      const { title } = req.body;
+      let { position } = req.body;
 
       if (!position) {
-        position = 0;
+        position = "0";
       }
 
       if (!title) {
         return next();
       }
-      const todo = await Todo.create({title, card_id, position});
+
+      const todo = await Todo.create({ title, card_id, position });
 
       return res.status(201).json(todo);
     } catch (error) {
@@ -77,6 +101,32 @@ const TodoController = {
     }
   },
 
+  async updateTodoByCard(req, res, next) {
+    try {
+      const { todo_id, card_id } = req.params;
+      const userInput = req.body;
+
+      const result = await Todo.update(userInput, {
+        where: { id: todo_id, card_id },
+        returning: true,
+      });
+
+      const [, [todo]] = result;
+
+      if (!todo) {
+        return next();
+      }
+
+      return res.json(todo);
+    } catch (error) {
+      console.error(error);
+      if (error.name === "SequelizeValidationError") {
+        return res.status(400).json({ error: error.message });
+      }
+      return res.status(500).json({ error: "Internal Server Error" });
+    }
+  },
+
   async deleteOneTodo(req, res, next) {
     try {
       const { id } = req.params;
@@ -85,6 +135,42 @@ const TodoController = {
       if (!deletedTodo) {
         return next();
       }
+
+      return res.status(204).json();
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({ error: "Internal Server Error" });
+    }
+  },
+
+  async deleteTodoByCard(req, res) {
+    try {
+      const { todo_id, card_id } = req.params;
+
+      await Todo.destroy({
+        where: {
+          id: todo_id,
+          card_id,
+        },
+      });
+
+      return res.status(204).json();
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({ error: "Internal Server Error" });
+    }
+  },
+
+  async deleteAllTodosByCard(req, res, next) {
+    try {
+      const { card_id } = req.params;
+      const todos = await Todo.findByPk(card_id);
+
+      if (!todos) {
+        return next();
+      }
+
+      await todos.destroy();
 
       return res.status(204).json();
     } catch (error) {
