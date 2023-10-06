@@ -126,7 +126,7 @@ const cardController = {
 
       return res.json(card);
     } catch (error) {
-      console.error(err);
+      console.error(error);
       if (error.name === "SequelizeValidationError") {
         return res.status(400).json({ error: error.message });
       }

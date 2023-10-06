@@ -29,15 +29,6 @@ Card.init(
         notNull: { msg: "hidden cannot be NULL" },
       },
     },
-    color: {
-      type: DataTypes.TEXT,
-      allowNull: false,
-      defaultValue: "default",
-      validate: {
-        notEmpty: { msg: "color cannot be empty" },
-        notNull: { msg: "color cannot be NULL" },
-      },
-    },
   },
   {
     sequelize,

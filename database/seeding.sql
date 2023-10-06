@@ -40,13 +40,13 @@ VALUES
 ('Finir zelda', 5, 1),
 ('Faire le ménage', 5, 2);
 
-INSERT INTO "tag" ("name")
+INSERT INTO "tag" ("name", "color")
 VALUES
-('Urgent'),
-('chapochapo'),
-('Personnel'),
-('Travail'),
-('Loisirs');
+('Urgent', "red"),
+('chapochapo', "yellow"),
+('Personnel', "blue"),
+('Travail', "orange"),
+('Loisirs', "green");
 
 INSERT INTO "todo_has_tag" ("todo_id", "tag_id")
 VALUES

@@ -41,7 +41,6 @@ CREATE TABLE "card" (
   "position" INTEGER NOT NULL,
   "board_id" INTEGER NOT NULL REFERENCES "board"("id") ON DELETE CASCADE,
   "hidden" TEXT NOT NULL DEFAULT 'FALSE',
-  "color" TEXT NOT NULL DEFAULT 'default',
   "created_at" timestamptz NOT NULL DEFAULT NOW(),
   "updated_at" timestamptz
 );

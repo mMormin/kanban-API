@@ -4,25 +4,26 @@ const mainController = {
   async updateCardPosition(req, res, next) {
     try {
       const { board_id, card_id } = req.params;
-      const { direction } = req.query;
+      const { dir } = req.query;
 
-      const cardResult = await Card.update(direction, {
+      if (!dir) {
+        return next();
+      }
+
+      const cardResult = await Card.update(dir, {
         where: { id: card_id, board_id },
         returning: true,
       });
 
       const [, [card]] = cardResult;
 
-      if (!direction) {
-        return next();
-      }
-
-      if (direction === 1) {
+      if (dir === 1) {
         const cards = await Card.findAll({ where: { board_id } });
 
         for (let i = 0; i < cards.length; i++) {
-          direction++;
-          let cardsResult = await Card.update(direction, {
+          dir++;
+          
+          let cardsResult = await Card.update(dir, {
             where: { board_id },
             returning: true,
           });
@@ -35,8 +36,9 @@ const mainController = {
         const cards = await Card.findAll({ where: { board_id } });
 
         for (let i = 0; i < cards.length; i++) {
-          direction--;
-          let cardsResult = await Card.update(direction, {
+          dir--;
+          
+          let cardsResult = await Card.update(dir, {
             where: { board_id },
             returning: true,
           });

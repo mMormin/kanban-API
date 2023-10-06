@@ -14,7 +14,7 @@ Tag.init(
       },
     },
     color: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.TEXT,
       allowNull: false,
       default: "#FFF",
       validate: {
