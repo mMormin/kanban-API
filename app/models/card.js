@@ -15,7 +15,6 @@ Card.init(
     },
     position: {
       type: DataTypes.INTEGER,
-      defaultValue: 1,
       validate: {
         isInt: { msg: "Invalid type: position should be a number" },
       },

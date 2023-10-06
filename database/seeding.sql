@@ -42,11 +42,11 @@ VALUES
 
 INSERT INTO "tag" ("name", "color")
 VALUES
-('Urgent', "red"),
-('chapochapo', "yellow"),
-('Personnel', "blue"),
-('Travail', "orange"),
-('Loisirs', "green");
+('Urgent', 'red'),
+('chapochapo', 'yellow'),
+('Personnel', 'blue'),
+('Travail', 'orange'),
+('Loisirs', 'green');
 
 INSERT INTO "todo_has_tag" ("todo_id", "tag_id")
 VALUES

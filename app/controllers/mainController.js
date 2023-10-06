@@ -1,53 +1,25 @@
 const { Card, Todo, Tag } = require("../models/index");
 
 const mainController = {
-  async updateCardPosition(req, res, next) {
+  async swapCardsPositions(req, res, next) {
     try {
-      const { board_id, card_id } = req.params;
-      const { dir } = req.query;
+      const { card_id } = req.params;
+      const { swap_position } = req.query;
 
-      if (!dir) {
+      if (!swap_position || !card_id) {
         return next();
       }
 
-      const cardResult = await Card.update(dir, {
-        where: { id: card_id, board_id },
-        returning: true,
-      });
+      const cardId = await Card.findByPk(card_id);
+      const isSwappedCardId = await Card.findByPk(swap_position);
 
-      const [, [card]] = cardResult;
+      const cardPosition = cardId.position;
+      cardId.position = isSwappedCardId.position;
+      isSwappedCardId.position = cardPosition;
 
-      if (dir === 1) {
-        const cards = await Card.findAll({ where: { board_id } });
+      await cardId.save();
+      await isSwappedCardId.save();
 
-        for (let i = 0; i < cards.length; i++) {
-          dir++;
-          
-          let cardsResult = await Card.update(dir, {
-            where: { board_id },
-            returning: true,
-          });
-
-          const [, [cards]] = cardsResult;
-
-          return res.json(card, cards);
-        }
-      } else {
-        const cards = await Card.findAll({ where: { board_id } });
-
-        for (let i = 0; i < cards.length; i++) {
-          dir--;
-          
-          let cardsResult = await Card.update(dir, {
-            where: { board_id },
-            returning: true,
-          });
-
-          const [, [cards]] = cardsResult;
-
-          return res.json(card, cards);
-        }
-      }
     } catch (error) {
       if (error.name === "SequelizeValidationError") {
         return res.status(400).json({ error: error.message });

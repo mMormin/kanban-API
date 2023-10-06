@@ -14,13 +14,7 @@ Tag.init(
       },
     },
     color: {
-      type: DataTypes.TEXT,
-      allowNull: false,
-      default: "#FFF",
-      validate: {
-        notNull: { msg: "color cannot be NULL" },
-        notEmpty: { msg: "color cannot be empty" },
-      }
+      type: DataTypes.TEXT
     },
   },
   {

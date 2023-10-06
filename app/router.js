@@ -42,9 +42,9 @@ router
   .route("/boards/:board_id(\\d+)/cards/:card_id(\\d+)")
   .get(cardController.getOneCardWithTodosByPk)
   .patch((req, res, next) => {
-    if (req.query) {
-      // boards/:id/cards/:id?dir=:direction
-      return mainController.updateCardPosition(req, res, next);
+    if (req.query.swap_position) {
+      // boards/:id/cards/:id?swap_position=:direction
+      return mainController.swapCardsPositions(req, res, next);
     } else {
       return cardController.updateCard(req, res, next);
     }
