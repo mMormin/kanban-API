@@ -187,13 +187,13 @@ PATCH http://localhost:3000/cards/6
 Content-Type: application/json
 
 {
-  "title": "Updated Board !"
+  "position": 2
 }
 ### URL ENCODED
 PATCH http://localhost:3000/cards/6
 Content-Type: application/x-www-form-urlencoded
 
-title=New Title&description=Because I'm edited yo
+position=6
 
 ### ERROR CHECK
 PATCH http://localhost:3000/cards/420

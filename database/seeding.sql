@@ -25,10 +25,10 @@ VALUES
 
 INSERT INTO "todo" ("title", "card_id", "position")
 VALUES
-('Acheter du lait', 1, 01),
-('Acheter des légumes', 1, 1),
-('Acheter du pain', 1, 2),
-('Faire le gâteau', 1, 3),
+('Acheter du lait', 1, 1),
+('Acheter des légumes', 1, 2),
+('Acheter du pain', 1, 3),
+('Faire le gâteau', 1, 4),
 ('Préparer le rapport', 2, 2),
 ('Réunion client', 2, 1),
 ('Développer les erreurs', 3, 3),

@@ -27,7 +27,7 @@ const cardController = {
           },
         ],
         order: [
-          ["id", "ASC"],
+          ["position", "ASC"],
           ["todos", "position", "ASC"],
           ["todos", "tags", "name", "ASC"],
         ],
@@ -48,17 +48,30 @@ const cardController = {
     try {
       const { board_id } = req.params;
       let { title } = req.body;
-      let { position } = req.body;
+      //let { position } = req.body;
 
-      if (!position) {
-        position = "0";
-      }
-      
       if (!title) {
         return next();
       }
 
-      const card = await Card.create({ title, board_id, position });
+      const lastedCard = await Card.findAll({
+        limit: 1,
+        where: { board_id },
+        order: [["createdAt", "DESC"]],
+      });
+
+      if (!lastedCard) {
+        const card = await Card.create({ title, board_id, position: 1 });
+        return res.status(201).json(card);
+      }
+
+      const cardPosition = lastedCard[0].position + 1;
+
+      const card = await Card.create({
+        title,
+        board_id,
+        position: cardPosition,
+      });
 
       return res.status(201).json(card);
     } catch (error) {

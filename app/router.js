@@ -42,10 +42,11 @@ router
   .route("/boards/:board_id(\\d+)/cards/:card_id(\\d+)")
   .get(cardController.getOneCardWithTodosByPk)
   .patch((req, res, next) => {
-    if (req.query.swap_position) {
-      // boards/:id/cards/:id?swap_position=:direction
+    if (req.query.swapped_card) {
+      // boards/:id/cards/:id?swapped_card=:id
       return mainController.swapCardsPositions(req, res, next);
     } else {
+      // boards/:id/cards/:id
       return cardController.updateCard(req, res, next);
     }
   })
@@ -67,9 +68,17 @@ router
   .delete(todoController.deleteAllTodosByCard);
 // boards/:id/cards/:id/todos/:id
 router
-  .route("/boards/:board_id(\\d+)/cards/:card_id(\\d+)/todos/:todo_id")
+  .route("/boards/:board_id(\\d+)/cards/:card_id(\\d+)/todos/:todo_id(\\d+)")
   .post(todoController.createNewTodoByCard)
-  .patch(todoController.updateTodoByCard)
+  .patch((req, res, next) => {
+    if (req.query.swapped_todo) {
+      // boards/:id/cards/:id/todos/:id?swapped_todo=:id
+      return mainController.swapTodosPositions(req, res, next);
+    } else {
+      // boards/:id/cards/:id/todos/:id
+      return todoController.updateTodoByCard(req, res, next);
+    }
+  })
   .delete(todoController.deleteTodoByCard);
 
 // Tags

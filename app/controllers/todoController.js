@@ -38,17 +38,29 @@ const TodoController = {
     try {
       const { card_id } = req.params;
       const { title } = req.body;
-      let { position } = req.body;
-
-      if (!position) {
-        position = "0";
-      }
 
       if (!title) {
         return next();
       }
 
-      const todo = await Todo.create({ title, card_id, position });
+      const lastedTodo = await Todo.findAll({
+        limit: 1,
+        where: { card_id },
+        order: [["createdAt", "DESC"]],
+      });
+
+      if (!lastedTodo) {
+        const todo = await Todo.create({ title, card_id, position: 1 });
+        return res.status(201).json(todo);
+      }
+
+      const todoPosition = lastedTodo[0].position + 1;
+
+      const todo = await Todo.create({
+        title,
+        card_id,
+        position: todoPosition,
+      });
 
       return res.status(201).json(todo);
     } catch (error) {

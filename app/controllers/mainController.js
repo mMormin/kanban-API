@@ -4,21 +4,48 @@ const mainController = {
   async swapCardsPositions(req, res, next) {
     try {
       const { card_id } = req.params;
-      const { swap_position } = req.query;
+      const { swapped_card } = req.query;
 
-      if (!swap_position || !card_id) {
+      if (!swapped_card || !card_id) {
         return next();
       }
 
-      const cardId = await Card.findByPk(card_id);
-      const isSwappedCardId = await Card.findByPk(swap_position);
+      const card = await Card.findByPk(card_id);
+      const isSwappedCard = await Card.findByPk(swapped_card);
 
-      const cardPosition = cardId.position;
-      cardId.position = isSwappedCardId.position;
-      isSwappedCardId.position = cardPosition;
+      const cardPosition = card.position;
+      card.position = isSwappedCard.position;
+      isSwappedCard.position = cardPosition;
 
-      await cardId.save();
-      await isSwappedCardId.save();
+      await card.save();
+      await isSwappedCard.save();
+
+    } catch (error) {
+      if (error.name === "SequelizeValidationError") {
+        return res.status(400).json({ error: error.message });
+      }
+      return res.status(500).json({ error: "Internal Server Error" });
+    }
+  },
+
+  async swapTodosPositions(req, res, next) {
+    try {
+      const { todo_id } = req.params;
+      const { swapped_todo } = req.query;
+
+      if (!swapped_todo || !todo_id) {
+        return next();
+      }
+
+      const todo = await Todo.findByPk(todo_id);
+      const isSwappedTodo = await Todo.findByPk(swapped_todo);
+
+      const todoPosition = todo.position;
+      todo.position = isSwappedTodo.position;
+      isSwappedTodo.position = todoPosition;
+
+      await todo.save();
+      await isSwappedTodo.save();
 
     } catch (error) {
       if (error.name === "SequelizeValidationError") {
