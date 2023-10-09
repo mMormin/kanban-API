@@ -43,18 +43,18 @@ const TodoController = {
         return next();
       }
 
-      const lastedTodo = await Todo.findAll({
+      const latestTodo = await Todo.findAll({
         limit: 1,
         where: { card_id },
         order: [["createdAt", "DESC"]],
       });
 
-      if (!lastedTodo) {
+      if (!latestTodo.length) {
         const todo = await Todo.create({ title, card_id, position: 1 });
         return res.status(201).json(todo);
       }
 
-      const todoPosition = lastedTodo[0].position + 1;
+      const todoPosition = latestTodo[0].position + 1;
 
       const todo = await Todo.create({
         title,

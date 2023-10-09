@@ -4,7 +4,6 @@
   "description": "Trello like",
   "main": "index.js",
   "scripts": {
-    "start": "node .",
     "dev": "npx nodemon",
     "db:create": "psql -U okanban -d okanban -f database/structure.sql",
     "db:populate": "psql -U okanban -d okanban -f database/seeding.sql",

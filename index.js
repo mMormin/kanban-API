@@ -30,7 +30,7 @@ const serverStart = async () => {
     await sequelize.authenticate();
     console.log("🗃️  Database connection ✅");
     app.listen(port, () => {
-      console.log(`📡 Listening on localhost URL : http://localhost:${port}`);
+      console.log(`📡 API is serving on localhost at port ${port}`);
     });
   } catch (error) {
     console.error("🗃️  Database connexion ❌ :", error);
@@ -38,16 +38,3 @@ const serverStart = async () => {
 };
 
 serverStart();
-
-/*
-// Force tables creation
-const tablesCreation = async () => {
-  try {
-    await sequelize.sync({ force: true });
-    console.log("🗃️  Models synchronization ✅");
-  } catch (error) {
-    console.error("🗃️  Models synchronization ❌ :", error);
-  }
-};
-tablesCreation();
-*/

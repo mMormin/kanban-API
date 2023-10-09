@@ -147,14 +147,13 @@ const cardController = {
     }
   },
 
-  async deleteOneCard(req, res, next) {
+  async deleteOneCard(req, res) {
     try {
-      const { card_id } = req.params;
-      const deletedCard = await Card.destroy({ where: { id: card_id } });
+      const id = req.params.card_id;
 
-      if (!deletedCard) {
-        return next();
-      }
+      const card = await Card.findByPk(id);
+
+      await card.destroy();
 
       return res.status(204).json();
     } catch (error) {
