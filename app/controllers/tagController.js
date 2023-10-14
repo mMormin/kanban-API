@@ -20,7 +20,7 @@ const tagController = {
         return next();
       }
 
-      const tag = await Tag.create({name});
+      const tag = await Tag.create({ name });
 
       return res.status(201).json(tag);
     } catch (error) {
@@ -41,6 +41,22 @@ const tagController = {
       }
 
       return res.json(tag);
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({ error: "Internal Server Error" });
+    }
+  },
+
+  async getAllTagsByCardPk(req, res, next) {
+    try {
+      const { id } = req.params;
+      const tags = await Tag.findAll({ where: { card_id: id } });
+
+      if (!tags) {
+        return next();
+      }
+
+      return res.json(tags);
     } catch (error) {
       console.error(error);
       return res.status(500).json({ error: "Internal Server Error" });
@@ -85,7 +101,7 @@ const tagController = {
       return res.status(204).json();
     } catch (error) {
       console.error(error);
-      return res.status(500).json({error: 'Internal Server Error'});
+      return res.status(500).json({ error: "Internal Server Error" });
     }
   },
 
@@ -100,7 +116,7 @@ const tagController = {
       return res.status(204).json();
     } catch (error) {
       console.error(error);
-      return res.status(500).json({error: 'Internal Server Error'});
+      return res.status(500).json({ error: "Internal Server Error" });
     }
   },
 };

@@ -48,7 +48,6 @@ const cardController = {
     try {
       const { board_id } = req.params;
       let { title } = req.body;
-      //let { position } = req.body;
 
       if (!title) {
         return next();
@@ -123,15 +122,21 @@ const cardController = {
 
   async updateCard(req, res, next) {
     try {
-      const { card_id } = req.params;
+      const id = req.params.card_id;
       const userInput = req.body;
 
+      console.log(userInput)
+
       const result = await Card.update(userInput, {
-        where: { id: card_id },
+        where: { id },
         returning: true,
       });
 
       const [, [card]] = result;
+
+      console.log(result)
+
+      console.log(card)
 
       if (!card) {
         return next();

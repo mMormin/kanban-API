@@ -94,7 +94,8 @@ router
   .delete(tagController.deleteOneTag);
 // boards/:id/cards/:id/todos/:id/tags
 router
-  .route("/boards/:board_id(\\d+)/cards/:card_id/todos/:id(\\d+)/tag")
+  .route("/boards/:board_id(\\d+)/cards/:card_id/todos/:id(\\d+)/tags")
+  .get(tagController.getAllTagsByCardPk)
   .post(mainController.postNewTodoHasTag);
 // boards/:id/cards/:id/todos/:id/tags/:id
 router
